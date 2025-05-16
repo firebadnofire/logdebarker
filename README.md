@@ -74,7 +74,7 @@ sudo install -Dm755 logdebarker /usr/local/bin/logdebarker
 
 OR
 
-`go install archuser.org/logdebarker`
+`go install archuser.org/logdebarker@latest`
 
 ## Final notes
 
