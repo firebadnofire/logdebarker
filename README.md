@@ -69,7 +69,7 @@ go build -o logdebarker
 2. Move the binary to your PATH:
 
 ```sh
-sudo mv logdebarker /usr/local/bin/
+sudo install -Dm755 logdebarker /usr/local/bin/logdebarker
 ```
 
 OR
