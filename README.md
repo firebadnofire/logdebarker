@@ -50,10 +50,10 @@ supersecretpassword
 
 ## Security
 
-To protect your sensitive word list, `logdebarker` will refuse to run if `$HOME/.blocked_words.txt` is not `chmod 700`.
+To protect your sensitive word list, `logdebarker` will refuse to run if `$HOME/.blocked_words.txt` is not `chmod 600`.
 
 ```sh
-chmod 700 ~/.blocked_words.txt
+chmod 600 ~/.blocked_words.txt
 ```
 
 ## Installation
@@ -75,6 +75,19 @@ sudo install -Dm755 logdebarker /usr/local/bin/logdebarker
 OR
 
 `go install archuser.org/logdebarker`
+
+## Final notes
+
+`Logdebarker` is not a service, so you may simply wipe out ~/.blocked_words.txt when not in use for added security. This can be done with `truncate -s 0 ~/.blocked_words.txt`
+
+Usage is as follows:
+
+```
+Usage:
+  logdebarker [input_file] [output_file]
+  logdebarker < input.txt > output.txt
+  inputstream | logdebarker | outputstream
+```
 
 ## License
 
