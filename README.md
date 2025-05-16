@@ -7,7 +7,7 @@
 * Accepts input from STDIN or a file
 * Outputs to STDOUT or a specified output file
 * Uses `$HOME/.blocked_words.txt` as a pattern file for matching sensitive strings
-* Enforces strict file permissions on the config file (`0700` only)
+* Enforces strict file permissions on the config file (`0600` only)
 * Supports custom redaction strings (e.g. `redaction: <string>`)
 * Ignores comment lines beginning with `#` in both input and config
 
@@ -61,7 +61,7 @@ chmod 700 ~/.blocked_words.txt
 1. Clone and build:
 
 ```sh
-git clone https://your.git.repo/logdebarker.git
+git clone https://codeberg.org/firebadnofire/logdebarker.git
 cd logdebarker
 go build -o logdebarker
 ```

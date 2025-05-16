@@ -24,8 +24,8 @@ func checkBlockedWordsFilePerm(path string) {
 	}
 
 	mode := info.Mode().Perm()
-	if mode != 0o700 {
-		log.Fatalf("Permission on %s must be 700, found %o", path, mode)
+	if mode != 0o600 {
+		log.Fatalf("Permission on %s must be 600, found %o", path, mode)
 	}
 }
 
