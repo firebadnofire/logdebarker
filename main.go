@@ -49,10 +49,48 @@ func loadBlockedWords(path string) {
 			redaction = strings.TrimSpace(strings.TrimPrefix(line, "redaction:"))
 			continue
 		}
+		if strings.HasPrefix(line, "import:") {
+			dirPath := strings.TrimSpace(strings.TrimPrefix(line, "import:"))
+			expandAndImportDir(dirPath)
+			continue
+		}
 		blockedWords = append(blockedWords, regexp.MustCompile(regexp.QuoteMeta(line)))
 	}
 	if err := scanner.Err(); err != nil {
 		log.Fatalf("Error reading %s: %v", path, err)
+	}
+}
+
+func expandAndImportDir(dir string) {
+	expandedPath := os.ExpandEnv(strings.ReplaceAll(dir, "~", getHomeDir()))
+	err := filepath.Walk(expandedPath, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if !info.IsDir() {
+			importWordsFromFile(path)
+		}
+		return nil
+	})
+	if err != nil {
+		log.Printf("Warning: Failed to walk directory %s: %v", dir, err)
+	}
+}
+
+func importWordsFromFile(path string) {
+	file, err := os.Open(path)
+	if err != nil {
+		log.Printf("Warning: Cannot open import file %s: %v", path, err)
+		return
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if line != "" && !strings.HasPrefix(line, "#") {
+			blockedWords = append(blockedWords, regexp.MustCompile(regexp.QuoteMeta(line)))
+		}
 	}
 }
 
@@ -128,5 +166,13 @@ func isInputFromTerminal() bool {
 		return true
 	}
 	return (fileInfo.Mode() & os.ModeCharDevice) != 0
+}
+
+func getHomeDir() string {
+	usr, err := user.Current()
+	if err != nil {
+		log.Fatalf("Unable to determine home directory: %v", err)
+	}
+	return usr.HomeDir
 }
 
