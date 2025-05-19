@@ -39,6 +39,8 @@ Each line should be a literal string to redact. Lines starting with `#` are igno
 redaction: [your-censor-string]
 ```
 
+You may also use `import:` to import an entire dir's text content as a set of blocked strings.
+
 Example `.blocked_words.txt`:
 
 ```
@@ -46,6 +48,7 @@ Example `.blocked_words.txt`:
 redaction: <removed>
 ABC123XYZ456
 supersecretpassword
+import: ~/.ssh
 ```
 
 ## Security
